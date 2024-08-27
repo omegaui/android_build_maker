@@ -14,6 +14,10 @@ class MainFlutterWindow: BitsdojoWindow {
 
     RegisterGeneratedPlugins(registry: flutterViewController)
 
+    // Access the NSWindow and set it to non-resizable
+    if let nsWindow = self.window {
+        nsWindow.styleMask.remove(.resizable)
+    }
     super.awakeFromNib()
   }
 }
