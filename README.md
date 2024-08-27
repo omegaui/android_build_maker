@@ -17,3 +17,22 @@ Permissions and Regulations are implied as:
 - No one can redistribute the source code
 - No one can publish it under any name on any app store
 - The Source code can only be used for educational purpose.
+
+### To build the app
+- Clone Repository
+
+```sh
+git clone https://github.com/omegaui/android_build_maker
+```
+
+- Change Directory
+```sh
+cd android_build_maker
+```
+
+- Build for MacOS
+```sh
+flutter build macos --release
+```
+
+- Look for executable in `build/macos` directory
