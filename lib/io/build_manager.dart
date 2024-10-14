@@ -70,6 +70,13 @@ class BuildManager {
     if (await intermediatesDir.exists()) {
       await intermediatesDir.delete(recursive: true);
     }
+    updateState(activeModel!, 'Removing previous builds');
+    final previousBuilds =
+        '$repository${Platform.pathSeparator}build${Platform.pathSeparator}app${Platform.pathSeparator}outputs${Platform.pathSeparator}flutter-apk';
+    final previousBuildsDir = Directory(previousBuilds);
+    if (await previousBuildsDir.exists()) {
+      await previousBuildsDir.delete(recursive: true);
+    }
     updateState(activeModel!, 'Generating App Icons');
     final flutter =
         "$flutterSDKPath${Platform.pathSeparator}bin${Platform.pathSeparator}flutter${Platform.isWindows ? '.bat' : ''}";
@@ -136,7 +143,10 @@ class BuildManager {
       ],
       workingDirectory: repository,
     );
-    if (result.exitCode != 0) {
+    final output =
+        '$repository${Platform.pathSeparator}build${Platform.pathSeparator}app${Platform.pathSeparator}outputs${Platform.pathSeparator}flutter-apk${Platform.pathSeparator}app-release.apk';
+    final releaseAPK = File(output);
+    if (!(await releaseAPK.exists())) {
       updateState(activeModel!, "Failed to generate application");
       waitingModels.clear();
       print(result.stdout);
@@ -149,9 +159,6 @@ class BuildManager {
     if (!(await FileSystemEntity.isDirectory(appDir))) {
       await Directory(appDir).create(recursive: true);
     }
-    final output =
-        '$repository${Platform.pathSeparator}build${Platform.pathSeparator}app${Platform.pathSeparator}outputs${Platform.pathSeparator}flutter-apk${Platform.pathSeparator}app-release.apk';
-    final releaseAPK = File(output);
     final secureLocation =
         '$appDir${Platform.pathSeparator}${activeModel!.shopName}.apk';
     await releaseAPK.rename(secureLocation);
