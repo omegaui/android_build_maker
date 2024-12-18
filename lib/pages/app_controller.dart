@@ -6,7 +6,7 @@ import 'package:android_build_maker/main.dart';
 class AppController {
   Stream<List<ProfileModel>> watchBuildProfiles() {
     final stream = appStorage.watch('profiles');
-    final controller = StreamController<List<ProfileModel>>();
+    final controller = StreamController<List<ProfileModel>>.broadcast();
     stream.listen((profiles) {
       List<ProfileModel> models = [];
       if (profiles.isNotEmpty) {

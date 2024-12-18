@@ -38,7 +38,7 @@ class PersistentStorage {
 
   Stream<T> watch<T>(String key) {
     var controller = _listeners[key];
-    controller ??= StreamController<T>();
+    controller ??= StreamController<T>.broadcast();
     _listeners[key] = controller;
     return (controller.stream as Stream<T>).asBroadcastStream();
   }
